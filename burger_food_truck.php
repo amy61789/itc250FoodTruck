@@ -77,10 +77,11 @@ function showForm()
         $cbox1 = "cbox1" . strval($checkCount);
         $cbox2 = "cbox2" . strval($checkCount);
         $cbox3 = "cbox3" . strval($checkCount);
-        echo '<p>' . $item->Name . '    $' . $item->Price . '    Quantity: <input type="text" name="item_' . $item->ID . '"/>  Extra Toppings: 
+        echo '<p>' . $item->Name . '    Description: ' . $item->Description . '</p><p>Price : $' . $item->Price . '      Extra Toppings ( $0.50 extra each): 
         <label><input type="checkbox" name="' . $cbox1 . '" value="mushroom"> Mushroom</label>
         <label><input type="checkbox" name="' . $cbox2 . '" value="peppers"> Peppers</label>
-        <label><input type="checkbox" name="' . $cbox3 . '" value="avocado"> Avocado</label></p>';
+        <label><input type="checkbox" name="' . $cbox3 . '" value="avocado"> Avocado</label></p>
+        <p>Quantity: <input type="text" name="item_' . $item->ID . '"/></p>';
         
         //adds count to checkboxes to verify which checkbox is checked
         $checkCount = $checkCount + 1;
@@ -124,8 +125,7 @@ function showData()
 			return true;//if all is passed, submit!
 		}
 	</script>
-	<h3 align="center">' . smartTitle() . '</h3>
-	<p align="center">Please enter the quantity you would like to order</p> 
+	<h3 align="center">' . smartTitle() . '</h3> 
 	<form action="' . THIS_PAGE . '" method="post" onsubmit="return checkForm(this);">
 		<table align="center">
 			<tr>
@@ -137,23 +137,7 @@ function showData()
     */
     
     
-    
-    
-    foreach($config->items as $item)
-    {
-        //echo "<p>ID: $item->ID Name: $item->Name</p>";
-        //echo '<p>Taco<input type="text" name="item_1"/></p>';
-        
-        echo '<p>' . $item->Name . '    $' . $item->Price . '    Quantity: <input type="text" name="item_' . $item->ID . '"/>  Extra Toppings: <label><input type="checkbox" name="cbox1" value="mushroom"> Mushroom</label>
-        <label><input type="checkbox" name="cbox2" value="peppers"> Peppers</label>
-        <label><input type="checkbox" name="cbox3" value="avocado"> Avocado</label></p>';
-        
 
-            
-     }
-                 
-
-    
                echo ' 
                 <!--
 					<input type="text" name="YourName" /><font color="red"><b>*</b></font> <em>(alphabetic only)</em>
@@ -239,9 +223,9 @@ function showData()
 		myRedirect(THIS_PAGE);
     }
     //prints out receipt total
-    echo '<p>Subtotal: $' . $subTotal . '</p>';
-    echo '<p>Tax: $' . number_format($tax, 2) . '</p>';
-    echo '<p>Total: $' . number_format($total, 2) . '</p>';
+    echo '<p align="center">Subtotal: $' . $subTotal . '</p>';
+    echo '<p align="center">Tax: $' . number_format($tax, 2) . '</p>';
+    echo '<p align="center">Total: $' . number_format($total, 2) . '</p>';
     
     echo '<p align="center"><a href="' . THIS_PAGE . '">Place another order</a></p>';
     
