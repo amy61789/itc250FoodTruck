@@ -67,12 +67,12 @@ function showForm()
 	<script type="text/javascript">
 		function checkForm(thisForm)
 		{//check form data for valid info
-			if(empty(thisForm.YourName,"Please Enter Your Name")){return false;}
+			if(empty(thisForm.YourName,"Please enter the quantity you would like to order")){return false;}
 			return true;//if all is passed, submit!
 		}
 	</script>
 	<h3 align="center">' . smartTitle() . '</h3>
-	<p align="center">Please enter your name</p> 
+	<p align="center">Please enter the quantity you would like to order</p> 
 	<form action="' . THIS_PAGE . '" method="post" onsubmit="return checkForm(this);">
 		<table align="center">
 			<tr>
@@ -112,7 +112,7 @@ function showForm()
 			</tr>
 			<tr>
 				<td align="center" colspan="2">
-					<input type="submit" value="Submit Your Order"><em>(<font color="red"><b>*</b> required field</font>)</em>
+					<input type="submit" value="Submit Your Order">
 				</td>
 			</tr>
 		</table>
@@ -136,7 +136,7 @@ function showData()
 		}
 	</script>
 	<h3 align="center">' . smartTitle() . '</h3>
-	<p align="center">Please enter your name</p> 
+	<p align="center">Please enter the quantity you would like to order</p> 
 	<form action="' . THIS_PAGE . '" method="post" onsubmit="return checkForm(this);">
 		<table align="center">
 			<tr>
@@ -192,7 +192,15 @@ function showData()
         {
             if(strstr($name, $itemCount)) 
             {
-                $quantity = intval($value);
+                if (is_numeric($value) || empty($value))
+                {
+                    $quantity = intval($value);
+                    
+                } else
+                    {
+                        feedback("Only numbers are allowed.  Please re-enter your quantity."); #will feedback to submitting page via session variable
+                        myRedirect(THIS_PAGE);
+                    }
                 
             }
             
@@ -224,10 +232,17 @@ function showData()
      
     $tax = $subTotal * .095;
     $total = $subTotal + $tax;
+    
+    if ($total == 0){
+        feedback("Please make a selection."); #will feedback to submitting page via session variable
+		myRedirect(THIS_PAGE);
+    }
 
     echo '<p>Subtotal: $' . $subTotal . '</p>';
     echo '<p>Tax: $' . number_format($tax, 2) . '</p>';
     echo '<p>Total: $' . number_format($total, 2) . '</p>';
+    
+    echo '<p align="center"><a href="' . THIS_PAGE . '">Place another order</a></p>';
     
 	get_header(); #defaults to footer_inc.php
 //	if(!isset($_POST['YourName']) || $_POST['YourName'] == '')
